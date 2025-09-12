@@ -10,10 +10,10 @@ branding:
 # Define your inputs here.
 inputs:
   version:
-    description: "version"
+    description: 'version'
     required: true
   token:
-    description: "github token"
+    description: 'github token'
     required: true
 
 # Define your outputs here.

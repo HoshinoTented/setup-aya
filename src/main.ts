@@ -11,11 +11,11 @@ import { setup } from './aya-setup.js'
 export async function run(): Promise<void> {
   try {
     const token = core.getInput('token')
-    
-    const home = os.homedir()
-    const { cliJar: clijar } = await setup(token, home,"nightly")
 
-    await exec.exec(clijar, [ "--version" ])
+    const home = os.homedir()
+    const { cliJar: clijar } = await setup(token, home, 'nightly')
+
+    await exec.exec(clijar, ['--version'])
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)

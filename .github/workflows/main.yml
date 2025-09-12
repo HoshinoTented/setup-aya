@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - "main"
+      - 'main'
 
 jobs:
   setup-aya:
@@ -11,5 +11,5 @@ jobs:
       - name: setup-aya
         uses: './'
         with:
-          version: "nightly"
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          version: 'nightly'
+          token: '${{ secrets.GITHUB_TOKEN }}'

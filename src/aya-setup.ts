@@ -4,25 +4,32 @@ import * as tc from '@actions/tool-cache'
 import * as io from '@actions/io'
 import * as path from 'path'
 
-const fileName = "cli-fatjar.jar"
+const fileName = 'cli-fatjar.jar'
 
 type Aya = {
-  ayaHome: string,
+  ayaHome: string
   cliJar: string
 }
 
-export async function setup(token: string, home: string, version: string): Promise<Aya> {
+export async function setup(
+  token: string,
+  home: string,
+  version: string
+): Promise<Aya> {
   const octokit = github.getOctokit(token)
   const { data: release } = await octokit.rest.repos.getReleaseByTag({
-    owner: "aya-prover",
-    repo: "aya-dev",
+    owner: 'aya-prover',
+    repo: 'aya-dev',
     tag: version
   })
 
-  const ayaHome = path.join(home, ".aya")
+  const ayaHome = path.join(home, '.aya')
   await io.mkdirP(ayaHome)
-  
-  const ayaJar = await tc.downloadTool(release.assets_url + "/" + fileName, path.join(ayaHome, fileName))
+
+  const ayaJar = await tc.downloadTool(
+    release.assets_url + '/' + fileName,
+    path.join(ayaHome, fileName)
+  )
 
   core.addPath(ayaHome)
 
