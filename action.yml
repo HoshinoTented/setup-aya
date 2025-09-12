@@ -1,4 +1,4 @@
-name: The name of your action here
+name: setup-aya
 description: Provide a description here
 author: Your name or organization here
 
@@ -10,7 +10,11 @@ branding:
 # Define your inputs here.
 inputs:
   version:
+    description: "version"
+    required: true
   token:
+    description: "github token"
+    required: true
 
 # Define your outputs here.
 outputs:
