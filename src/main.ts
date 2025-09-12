@@ -3,8 +3,6 @@ import * as exec from '@actions/exec'
 import * as os from 'os'
 import { setup } from './aya-setup.js'
 
-const cliJarName = "cli-fatjar.jar"
-
 /**
  * The main function for the action.
  *
