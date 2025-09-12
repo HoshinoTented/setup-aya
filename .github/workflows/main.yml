@@ -1,0 +1,14 @@
+on:
+  issues:
+    types:
+      opened
+
+jobs:
+  setup-aya:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: setup-aya
+        uses: './'
+        with:
+          version: "nightly"
+          token: "${{ secrets.GITHUB_TOKEN }}"
