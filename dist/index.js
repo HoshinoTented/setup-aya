@@ -33816,6 +33816,7 @@ const fileName = 'cli-fatjar.jar';
 async function setup(token, home, version) {
     coreExports.debug('Setting up Aya with version: ' + version + ' for homedir: ' + home);
     const octokit = githubExports.getOctokit(token);
+    // Improve error message, but we need to deal with scope problem
     const { data: release } = await octokit.rest.repos.getReleaseByTag({
         owner: ayaProver,
         repo: ayaDev,
@@ -33852,9 +33853,11 @@ async function setup(token, home, version) {
  */
 async function run() {
     try {
+        coreExports.debug('OUTPUT!');
         const token = coreExports.getInput('token');
+        const version = coreExports.getInput('version');
         const home = require$$0.homedir();
-        const { cliJar: clijar } = await setup(token, home, 'nightly');
+        const { cliJar: clijar } = await setup(token, home, version);
         await execExports.exec(clijar, ['--version']);
     }
     catch (error) {

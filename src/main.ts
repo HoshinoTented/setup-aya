@@ -10,12 +10,13 @@ import { setup } from './aya-setup.js'
  */
 export async function run(): Promise<void> {
   try {
-    core.debug("OUTPUT!")
+    core.debug('OUTPUT!')
 
     const token = core.getInput('token')
+    const version = core.getInput('version')
 
     const home = os.homedir()
-    const { cliJar: clijar } = await setup(token, home, 'nightly')
+    const { cliJar: clijar } = await setup(token, home, version)
 
     await exec.exec(clijar, ['--version'])
   } catch (error) {
