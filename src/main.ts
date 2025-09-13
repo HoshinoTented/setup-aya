@@ -10,6 +10,8 @@ import { setup } from './aya-setup.js'
  */
 export async function run(): Promise<void> {
   try {
+    core.debug("OUTPUT!")
+
     const token = core.getInput('token')
 
     const home = os.homedir()

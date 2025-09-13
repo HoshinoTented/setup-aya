@@ -23,6 +23,8 @@ export async function setup(
   )
 
   const octokit = github.getOctokit(token)
+
+  // Improve error message, but we need to deal with scope problem
   const { data: release } = await octokit.rest.repos.getReleaseByTag({
     owner: ayaProver,
     repo: ayaDev,

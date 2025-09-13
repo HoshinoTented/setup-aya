@@ -11,5 +11,5 @@ jobs:
       - name: setup-aya
         uses: './'
         with:
-          version: 'nightly'
+          version: 'nightly-build'
           token: '${{ secrets.GITHUB_TOKEN }}'
