@@ -33810,18 +33810,35 @@ var toolCacheExports = requireToolCache();
 
 var ioExports = requireIo();
 
+const ayaProver = 'aya-prover';
+const ayaDev = 'aya-dev';
 const fileName = 'cli-fatjar.jar';
 async function setup(token, home, version) {
+    coreExports.debug('Setting up Aya with version: ' + version + ' for homedir: ' + home);
     const octokit = githubExports.getOctokit(token);
     const { data: release } = await octokit.rest.repos.getReleaseByTag({
-        owner: 'aya-prover',
-        repo: 'aya-dev',
+        owner: ayaProver,
+        repo: ayaDev,
         tag: version
     });
+    const { data: assets } = await octokit.rest.repos.listReleaseAssets({
+        owner: ayaProver,
+        repo: ayaDev,
+        release_id: release.id
+    });
+    const cliJarAsset = assets.find((asset) => asset.name == fileName);
+    if (cliJarAsset == undefined) {
+        throw new Error('Asset ' + fileName + ' in release ' + release.name + ' is found.');
+    }
+    const assetsUrl = cliJarAsset.browser_download_url;
     const ayaHome = require$$1.join(home, '.aya');
+    const ayaJar = require$$1.join(ayaHome, fileName);
     await ioExports.mkdirP(ayaHome);
-    const ayaJar = await toolCacheExports.downloadTool(release.assets_url + '/' + fileName, require$$1.join(ayaHome, fileName));
+    coreExports.debug('Downloading ' + assetsUrl + ' to ' + ayaJar);
+    await toolCacheExports.downloadTool(assetsUrl, ayaJar);
+    coreExports.debug('Setting up PATH');
     coreExports.addPath(ayaHome);
+    coreExports.debug('Done setup Aya.');
     return {
         ayaHome: ayaHome,
         cliJar: ayaJar

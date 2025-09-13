@@ -4,6 +4,8 @@ import * as tc from '@actions/tool-cache'
 import * as io from '@actions/io'
 import * as path from 'path'
 
+const ayaProver = 'aya-prover'
+const ayaDev = 'aya-dev'
 const fileName = 'cli-fatjar.jar'
 
 type Aya = {
@@ -16,23 +18,44 @@ export async function setup(
   home: string,
   version: string
 ): Promise<Aya> {
+  core.debug(
+    'Setting up Aya with version: ' + version + ' for homedir: ' + home
+  )
+
   const octokit = github.getOctokit(token)
   const { data: release } = await octokit.rest.repos.getReleaseByTag({
-    owner: 'aya-prover',
-    repo: 'aya-dev',
+    owner: ayaProver,
+    repo: ayaDev,
     tag: version
   })
 
+  const { data: assets } = await octokit.rest.repos.listReleaseAssets({
+    owner: ayaProver,
+    repo: ayaDev,
+    release_id: release.id
+  })
+
+  const cliJarAsset = assets.find((asset) => asset.name == fileName)
+
+  if (cliJarAsset == undefined) {
+    throw new Error(
+      'Asset ' + fileName + ' in release ' + release.name + ' is found.'
+    )
+  }
+
+  const assetsUrl = cliJarAsset.browser_download_url
   const ayaHome = path.join(home, '.aya')
+  const ayaJar = path.join(ayaHome, fileName)
+
   await io.mkdirP(ayaHome)
 
-  const ayaJar = await tc.downloadTool(
-    release.assets_url + '/' + fileName,
-    path.join(ayaHome, fileName)
-  )
+  core.debug('Downloading ' + assetsUrl + ' to ' + ayaJar)
+  await tc.downloadTool(assetsUrl, ayaJar)
 
+  core.debug('Setting up PATH')
   core.addPath(ayaHome)
 
+  core.debug('Done setup Aya.')
   return {
     ayaHome: ayaHome,
     cliJar: ayaJar
