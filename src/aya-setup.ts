@@ -52,7 +52,8 @@ export async function setup(
   await io.mkdirP(ayaHome)
 
   core.debug('Downloading ' + assetsUrl + ' to ' + ayaJar)
-  await tc.downloadTool(assetsUrl, ayaJar)
+  const actualPath = await tc.downloadTool(assetsUrl, ayaJar)
+  core.debug('Downloaded to ' + actualPath)
 
   core.debug('Setting up PATH')
   core.addPath(ayaHome)

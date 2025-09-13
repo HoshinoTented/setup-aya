@@ -33836,7 +33836,8 @@ async function setup(token, home, version) {
     const ayaJar = require$$1.join(ayaHome, fileName);
     await ioExports.mkdirP(ayaHome);
     coreExports.debug('Downloading ' + assetsUrl + ' to ' + ayaJar);
-    await toolCacheExports.downloadTool(assetsUrl, ayaJar);
+    const actualPath = await toolCacheExports.downloadTool(assetsUrl, ayaJar);
+    coreExports.debug('Downloaded to ' + actualPath);
     coreExports.debug('Setting up PATH');
     coreExports.addPath(ayaHome);
     coreExports.debug('Done setup Aya.');
@@ -33873,4 +33874,3 @@ async function run() {
  */
 /* istanbul ignore next */
 run();
-//# sourceMappingURL=index.js.map
