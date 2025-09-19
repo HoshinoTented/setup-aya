@@ -33859,7 +33859,7 @@ async function run() {
         const version = coreExports.getInput('version');
         const home = require$$0.homedir();
         const { cliJar: clijar } = await setup(token, home, version);
-        await execExports.exec('java', ['-jar', clijar, '--', '--version']);
+        await execExports.exec('java', ['-jar', clijar, '--version']);
     }
     catch (error) {
         // Fail the workflow run if an error occurs
