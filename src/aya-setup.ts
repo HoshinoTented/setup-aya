@@ -10,13 +10,8 @@ type Aya = {
   cliJar: string
 }
 
-export async function setup(
-  token: string,
-  version: string
-): Promise<Aya> {
-  core.debug(
-    'Setting up Aya with version: ' + version
-  )
+export async function setup(token: string, version: string): Promise<Aya> {
+  core.debug('Setting up Aya with version: ' + version)
 
   const octokit = github.getOctokit(token)
 
