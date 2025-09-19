@@ -7,12 +7,12 @@ jobs:
   setup-aya:
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v4
       - name: setup-java
         uses: actions/setup-java@v4
         with:
           distribution: 'liberica'
           java-version: 21
+      - uses: actions/checkout@v4
       - name: setup-aya
         uses: "./"
         with:
