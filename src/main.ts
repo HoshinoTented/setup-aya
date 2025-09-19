@@ -18,7 +18,7 @@ export async function run(): Promise<void> {
     const home = os.homedir();
     const { cliJar: clijar } = await setup(token, home, version);
 
-    await exec.exec(clijar, ["--version"]);
+    await exec.exec("java", ["--jar", clijar, "--", "--version"]);
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message);
