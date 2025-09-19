@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - "main"
+      - 'main'
 
 jobs:
   setup-aya:
@@ -14,7 +14,7 @@ jobs:
           java-version: 21
       - uses: actions/checkout@v4
       - name: setup-aya
-        uses: "./"
+        uses: './'
         with:
-          version: "nightly-build"
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          version: 'nightly-build'
+          token: '${{ secrets.GITHUB_TOKEN }}'

@@ -33810,40 +33810,40 @@ var toolCacheExports = requireToolCache();
 
 var ioExports = requireIo();
 
-const ayaProver = "aya-prover";
-const ayaDev = "aya-dev";
-const fileName = "cli-fatjar.jar";
+const ayaProver = 'aya-prover';
+const ayaDev = 'aya-dev';
+const fileName = 'cli-fatjar.jar';
 async function setup(token, home, version) {
-    coreExports.debug("Setting up Aya with version: " + version + " for homedir: " + home);
+    coreExports.debug('Setting up Aya with version: ' + version + ' for homedir: ' + home);
     const octokit = githubExports.getOctokit(token);
     // Improve error message, but we need to deal with scope problem
     const { data: release } = await octokit.rest.repos.getReleaseByTag({
         owner: ayaProver,
         repo: ayaDev,
-        tag: version,
+        tag: version
     });
     const { data: assets } = await octokit.rest.repos.listReleaseAssets({
         owner: ayaProver,
         repo: ayaDev,
-        release_id: release.id,
+        release_id: release.id
     });
     const cliJarAsset = assets.find((asset) => asset.name == fileName);
     if (cliJarAsset == undefined) {
-        throw new Error("Asset " + fileName + " in release " + release.name + " is found.");
+        throw new Error('Asset ' + fileName + ' in release ' + release.name + ' is found.');
     }
     const assetsUrl = cliJarAsset.browser_download_url;
-    const ayaHome = require$$1.join(home, ".aya");
+    const ayaHome = require$$1.join(home, '.aya');
     const ayaJar = require$$1.join(ayaHome, fileName);
     await ioExports.mkdirP(ayaHome);
-    coreExports.debug("Downloading " + assetsUrl + " to " + ayaJar);
+    coreExports.debug('Downloading ' + assetsUrl + ' to ' + ayaJar);
     const actualPath = await toolCacheExports.downloadTool(assetsUrl, ayaJar);
-    coreExports.debug("Downloaded to " + actualPath);
-    coreExports.debug("Setting up PATH");
+    coreExports.debug('Downloaded to ' + actualPath);
+    coreExports.debug('Setting up PATH');
     coreExports.addPath(ayaHome);
-    coreExports.debug("Done setup Aya.");
+    coreExports.debug('Done setup Aya.');
     return {
         ayaHome: ayaHome,
-        cliJar: ayaJar,
+        cliJar: ayaJar
     };
 }
 
@@ -33854,12 +33854,12 @@ async function setup(token, home, version) {
  */
 async function run() {
     try {
-        coreExports.debug("OUTPUT!");
-        const token = coreExports.getInput("token");
-        const version = coreExports.getInput("version");
+        coreExports.debug('OUTPUT!');
+        const token = coreExports.getInput('token');
+        const version = coreExports.getInput('version');
         const home = require$$0.homedir();
         const { cliJar: clijar } = await setup(token, home, version);
-        await execExports.exec("java", ["--jar", clijar, "--", "--version"]);
+        await execExports.exec('java', ['-jar', clijar, '--', '--version']);
     }
     catch (error) {
         // Fail the workflow run if an error occurs
