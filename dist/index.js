@@ -33850,7 +33850,7 @@ async function setup(token, version) {
         throw new Error('Failed to get aya version');
     }
     // we need to use the real version in case `version == 'nightly-build'`
-    const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, toolName, realVersion);
+    const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, toolName, realVersion.substring(4).trim());
     coreExports.info('Aya is setup at ' + ayaHome);
     const refind = toolCacheExports.findAllVersions(toolName);
     coreExports.info('Aya is found at: ' + refind.join(' '));

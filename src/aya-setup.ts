@@ -70,7 +70,7 @@ export async function setup(token: string, version: string): Promise<Aya> {
     downloaded,
     cliFileName,
     toolName,
-    realVersion
+    realVersion.substring(4).trim()
   )
   core.info('Aya is setup at ' + ayaHome)
 
