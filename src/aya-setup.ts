@@ -26,7 +26,7 @@ class Aya {
 }
 
 export async function setup(token: string, version: string): Promise<Aya> {
-  core.info('Setting up Aya with version: ' + version)
+  core.debug('Setting up Aya with version: ' + version)
 
   const octokit = github.getOctokit(token)
 
@@ -53,30 +53,29 @@ export async function setup(token: string, version: string): Promise<Aya> {
 
   const assetsUrl = cliJarAsset.browser_download_url
 
-  core.info('Downloading ' + assetsUrl)
+  core.debug('Downloading ' + assetsUrl)
   const downloaded = await tc.downloadTool(assetsUrl)
 
   // Obtain aya version
-  const tmpAya = new Aya(path.join(downloaded))
-  const { exitCode: exitCode, stdout: realVersion } =
-    await tmpAya.execOutput('--version')
+  // const tmpAya = new Aya(path.join(downloaded))
+  // const { exitCode: exitCode, stdout: realVersion } =
+  //   await tmpAya.execOutput('--version')
 
-  if (exitCode != 0) {
-    throw new Error('Failed to get aya version')
-  }
+  // if (exitCode != 0) {
+  //   throw new Error('Failed to get aya version')
+  // }
 
   // we need to use the real version in case `version == 'nightly-build'`
   const ayaHome = await tc.cacheFile(
     downloaded,
     cliFileName,
     toolName,
-    realVersion.substring(4).trim()
+    // realVersion.substring(4).trim()
+    '0.0.0' // hard code, sorry
   )
-  core.info('Aya is setup at ' + ayaHome)
 
-  const refind = tc.findAllVersions(toolName)
-  core.info('Aya is found at: ' + refind.join(' '))
+  core.debug('Aya is setup at ' + ayaHome)
 
-  core.info('Done setup Aya.')
+  core.debug('Done setup Aya.')
   return new Aya(path.join(ayaHome, cliFileName))
 }
