@@ -33822,7 +33822,7 @@ class Aya {
     }
 }
 async function setup(token, version) {
-    coreExports.debug('Setting up Aya with version: ' + version);
+    coreExports.info('Setting up Aya with version: ' + version);
     const octokit = githubExports.getOctokit(token);
     // Improve error message when getReleaseByTag fails, but we need to deal with scope problem
     const { data: release } = await octokit.rest.repos.getReleaseByTag({
@@ -33840,13 +33840,13 @@ async function setup(token, version) {
         throw new Error('Asset ' + cliFileName + ' in release ' + release.name + ' is found.');
     }
     const assetsUrl = cliJarAsset.browser_download_url;
-    coreExports.debug('Downloading ' + assetsUrl);
+    coreExports.info('Downloading ' + assetsUrl);
     const downloaded = await toolCacheExports.downloadTool(assetsUrl);
     const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, toolName, version);
-    coreExports.debug('Aya is setup at ' + ayaHome);
+    coreExports.info('Aya is setup at ' + ayaHome);
     const refind = toolCacheExports.findAllVersions(toolName);
     coreExports.info('Aya is found at: ' + refind.join(' '));
-    coreExports.debug('Done setup Aya.');
+    coreExports.info('Done setup Aya.');
     return new Aya(require$$1$5.join(ayaHome, cliFileName));
 }
 

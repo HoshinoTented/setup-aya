@@ -23,7 +23,7 @@ class Aya {
 }
 
 export async function setup(token: string, version: string): Promise<Aya> {
-  core.debug('Setting up Aya with version: ' + version)
+  core.info('Setting up Aya with version: ' + version)
 
   const octokit = github.getOctokit(token)
 
@@ -50,14 +50,14 @@ export async function setup(token: string, version: string): Promise<Aya> {
 
   const assetsUrl = cliJarAsset.browser_download_url
 
-  core.debug('Downloading ' + assetsUrl)
+  core.info('Downloading ' + assetsUrl)
   const downloaded = await tc.downloadTool(assetsUrl)
   const ayaHome = await tc.cacheFile(downloaded, cliFileName, toolName, version)
-  core.debug('Aya is setup at ' + ayaHome)
+  core.info('Aya is setup at ' + ayaHome)
 
   const refind = tc.findAllVersions(toolName)
   core.info('Aya is found at: ' + refind.join(' '))
 
-  core.debug('Done setup Aya.')
+  core.info('Done setup Aya.')
   return new Aya(path.join(ayaHome, cliFileName))
 }
