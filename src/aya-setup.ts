@@ -17,8 +17,11 @@ class Aya {
   }
 
   async run(...args: string[]): Promise<number> {
-    if (args == undefined) args = []
     return exec.exec('java', ['-jar', this.cliJar, ...args])
+  }
+
+  async execOutput(...args: string[]): Promise<exec.ExecOutput> {
+    return exec.getExecOutput('java', ['-jar', this.cliJar, ...args])
   }
 }
 
@@ -52,7 +55,22 @@ export async function setup(token: string, version: string): Promise<Aya> {
 
   core.info('Downloading ' + assetsUrl)
   const downloaded = await tc.downloadTool(assetsUrl)
-  const ayaHome = await tc.cacheFile(downloaded, cliFileName, toolName, version)
+
+  // Obtain aya version
+  const tmpAya = new Aya(path.join(downloaded, '..'))
+  const { exitCode: exitCode, stdout: realVersion } =
+    await tmpAya.execOutput('--version')
+
+  if (exitCode != 0) {
+    throw new Error('Failed to get aya version')
+  }
+
+  const ayaHome = await tc.cacheFile(
+    downloaded,
+    cliFileName,
+    toolName,
+    realVersion
+  )
   core.info('Aya is setup at ' + ayaHome)
 
   const refind = tc.findAllVersions(toolName)

@@ -33816,9 +33816,10 @@ class Aya {
         this.cliJar = cliJar;
     }
     async run(...args) {
-        if (args == undefined)
-            args = [];
         return execExports.exec('java', ['-jar', this.cliJar, ...args]);
+    }
+    async execOutput(...args) {
+        return execExports.getExecOutput('java', ['-jar', this.cliJar, ...args]);
     }
 }
 async function setup(token, version) {
@@ -33842,7 +33843,13 @@ async function setup(token, version) {
     const assetsUrl = cliJarAsset.browser_download_url;
     coreExports.info('Downloading ' + assetsUrl);
     const downloaded = await toolCacheExports.downloadTool(assetsUrl);
-    const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, toolName, version);
+    // Obtain aya version
+    const tmpAya = new Aya(require$$1$5.join(downloaded, '..'));
+    const { exitCode: exitCode, stdout: realVersion } = await tmpAya.execOutput('--version');
+    if (exitCode != 0) {
+        throw new Error('Failed to get aya version');
+    }
+    const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, toolName, realVersion);
     coreExports.info('Aya is setup at ' + ayaHome);
     const refind = toolCacheExports.findAllVersions(toolName);
     coreExports.info('Aya is found at: ' + refind.join(' '));
