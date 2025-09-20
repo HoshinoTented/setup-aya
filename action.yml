@@ -36,6 +36,7 @@ runs:
       with:
         arguments: fatJar --no-daemon --stacktrace --warning-mode all
     - name: Copy fat jar
+      shell: bash
       run: |
         cp ./cli-console/build/libs/*-fat.jar ./cli-console/build/libs/cli-fatjar.jar
     - name: Save PWD
