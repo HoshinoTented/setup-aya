@@ -33844,7 +33844,7 @@ async function setup(token, version) {
     const downloaded = await toolCacheExports.downloadTool(assetsUrl);
     const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, toolName, version);
     coreExports.debug('Aya is setup at ' + ayaHome);
-    const refind = toolCacheExports.find(toolName, cliFileName, 'x64');
+    const refind = toolCacheExports.find(toolName, version);
     coreExports.debug('Aya is found at: ' + refind);
     coreExports.debug('Done setup Aya.');
     return new Aya(require$$1$5.join(ayaHome, cliFileName));
