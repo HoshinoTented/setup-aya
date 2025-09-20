@@ -33841,12 +33841,12 @@ async function setup(token, version) {
     const assetsUrl = cliJarAsset.browser_download_url;
     coreExports.debug('Downloading ' + assetsUrl);
     const downloaded = await toolCacheExports.downloadTool(assetsUrl);
-    const ayaJar = await toolCacheExports.cacheFile(downloaded, cliFileName, 'aya', version);
-    coreExports.debug('Aya is setup at ' + ayaJar);
+    const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, 'aya', version);
+    coreExports.debug('Aya is setup at ' + ayaHome);
     coreExports.debug('Setting up PATH');
-    coreExports.addPath(ayaJar);
+    coreExports.addPath(ayaHome);
     coreExports.debug('Done setup Aya.');
-    return new Aya(ayaJar);
+    return new Aya(require$$1$5.join(ayaHome, cliFileName));
 }
 
 /**

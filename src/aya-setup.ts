@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import * as github from '@actions/github'
 import * as tc from '@actions/tool-cache'
+import path from 'path'
 
 const ayaProver = 'aya-prover'
 const ayaDev = 'aya-dev'
@@ -50,12 +51,12 @@ export async function setup(token: string, version: string): Promise<Aya> {
 
   core.debug('Downloading ' + assetsUrl)
   const downloaded = await tc.downloadTool(assetsUrl)
-  const ayaJar = await tc.cacheFile(downloaded, cliFileName, 'aya', version)
-  core.debug('Aya is setup at ' + ayaJar)
+  const ayaHome = await tc.cacheFile(downloaded, cliFileName, 'aya', version)
+  core.debug('Aya is setup at ' + ayaHome)
 
   core.debug('Setting up PATH')
-  core.addPath(ayaJar)
+  core.addPath(ayaHome)
 
   core.debug('Done setup Aya.')
-  return new Aya(ayaJar)
+  return new Aya(path.join(ayaHome, cliFileName))
 }
