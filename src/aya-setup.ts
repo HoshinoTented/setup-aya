@@ -1,13 +1,23 @@
 import * as core from '@actions/core'
+import * as exec from '@actions/exec'
 import * as github from '@actions/github'
 import * as tc from '@actions/tool-cache'
 
 const ayaProver = 'aya-prover'
 const ayaDev = 'aya-dev'
-const fileName = 'cli-fatjar.jar'
+const cliFileName = 'cli-fatjar.jar'
 
-type Aya = {
+class Aya {
   cliJar: string
+
+  constructor(cliJar: string) {
+    this.cliJar = cliJar
+  }
+
+  async run(...args: string[]): Promise<number> {
+    if (args == undefined) args = []
+    return exec.exec('java', ['-jar', this.cliJar, ...args])
+  }
 }
 
 export async function setup(token: string, version: string): Promise<Aya> {
@@ -15,7 +25,7 @@ export async function setup(token: string, version: string): Promise<Aya> {
 
   const octokit = github.getOctokit(token)
 
-  // Improve error message, but we need to deal with scope problem
+  // Improve error message when getReleaseByTag fails, but we need to deal with scope problem
   const { data: release } = await octokit.rest.repos.getReleaseByTag({
     owner: ayaProver,
     repo: ayaDev,
@@ -28,25 +38,24 @@ export async function setup(token: string, version: string): Promise<Aya> {
     release_id: release.id
   })
 
-  const cliJarAsset = assets.find((asset) => asset.name == fileName)
+  const cliJarAsset = assets.find((asset) => asset.name == cliFileName)
 
   if (cliJarAsset == undefined) {
     throw new Error(
-      'Asset ' + fileName + ' in release ' + release.name + ' is found.'
+      'Asset ' + cliFileName + ' in release ' + release.name + ' is found.'
     )
   }
 
   const assetsUrl = cliJarAsset.browser_download_url
 
   core.debug('Downloading ' + assetsUrl)
-  const ayaJar = await tc.downloadTool(assetsUrl)
-  core.debug('Downloaded to ' + ayaJar)
+  const downloaded = await tc.downloadTool(assetsUrl)
+  const ayaJar = await tc.cacheFile(downloaded, cliFileName, 'aya', version)
+  core.debug('Aya is setup at ' + ayaJar)
 
   core.debug('Setting up PATH')
   core.addPath(ayaJar)
 
   core.debug('Done setup Aya.')
-  return {
-    cliJar: ayaJar
-  }
+  return new Aya(ayaJar)
 }

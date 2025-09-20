@@ -1,5 +1,4 @@
 import * as core from '@actions/core'
-import * as exec from '@actions/exec'
 import { setup } from './aya-setup.js'
 
 /**
@@ -9,13 +8,11 @@ import { setup } from './aya-setup.js'
  */
 export async function run(): Promise<void> {
   try {
-    core.debug('OUTPUT!')
-
     const token = core.getInput('token')
     const version = core.getInput('version')
-    const { cliJar: clijar } = await setup(token, version)
+    const aya = await setup(token, version)
 
-    await exec.exec('java', ['-jar', clijar, '--version'])
+    await aya.run('--version')
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
