@@ -55,7 +55,7 @@ export async function setup(token: string, version: string): Promise<Aya> {
   const ayaHome = await tc.cacheFile(downloaded, cliFileName, toolName, version)
   core.debug('Aya is setup at ' + ayaHome)
 
-  const refind = tc.find(toolName, version)
+  const refind = tc.find(cliFileName, version)
   core.debug('Aya is found at: ' + refind)
 
   core.debug('Done setup Aya.')
