@@ -57,7 +57,7 @@ export async function setup(token: string, version: string): Promise<Aya> {
   const downloaded = await tc.downloadTool(assetsUrl)
 
   // Obtain aya version
-  const tmpAya = new Aya(path.join(downloaded, '..'))
+  const tmpAya = new Aya(path.join(downloaded))
   const { exitCode: exitCode, stdout: realVersion } =
     await tmpAya.execOutput('--version')
 
@@ -65,6 +65,7 @@ export async function setup(token: string, version: string): Promise<Aya> {
     throw new Error('Failed to get aya version')
   }
 
+  // we need to use the real version in case `version == 'nightly-build'`
   const ayaHome = await tc.cacheFile(
     downloaded,
     cliFileName,

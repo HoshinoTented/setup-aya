@@ -33844,11 +33844,12 @@ async function setup(token, version) {
     coreExports.info('Downloading ' + assetsUrl);
     const downloaded = await toolCacheExports.downloadTool(assetsUrl);
     // Obtain aya version
-    const tmpAya = new Aya(require$$1$5.join(downloaded, '..'));
+    const tmpAya = new Aya(require$$1$5.join(downloaded));
     const { exitCode: exitCode, stdout: realVersion } = await tmpAya.execOutput('--version');
     if (exitCode != 0) {
         throw new Error('Failed to get aya version');
     }
+    // we need to use the real version in case `version == 'nightly-build'`
     const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, toolName, realVersion);
     coreExports.info('Aya is setup at ' + ayaHome);
     const refind = toolCacheExports.findAllVersions(toolName);
