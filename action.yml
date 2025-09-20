@@ -41,6 +41,7 @@ runs:
         cp ./cli-console/build/libs/*-fat.jar ./cli-console/build/libs/cli-fatjar.jar
     - name: Save PWD
       id: save-pwd
+      shell: bash
       run: echo "aya_root=$PWD" >> $GITHUB_OUTPUT
     - name: checkout back
       uses: 'actions/checkout@v4'
