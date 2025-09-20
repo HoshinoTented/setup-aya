@@ -9,9 +9,10 @@ branding:
 
 # Define your inputs here.
 inputs:
-  version:
-    description: 'version'
+  refs:
+    description: branch, tag, or commit of aya-dev
     required: true
+    default: nightly-build
   token:
     description: 'github token'
     required: true
@@ -19,5 +20,24 @@ inputs:
 # Define your outputs here.
 
 runs:
-  using: node24
-  main: dist/index.js
+  using: composite
+  steps:
+    - name: checkout
+      uses: 'actions/checkout@v4'
+      with:
+        repository: 'aya-prover/aya-dev'
+        ref: ${{ inputs.refs }}
+    - name: Setup Java ${{ inputs.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'liberica'
+        java-version: ${{ inputs.java-version }}
+    - uses: gradle/gradle-build-action@v3
+      with:
+        arguments: fatJar --no-daemon --stacktrace --warning-mode all
+    - name: Copy fat jar
+      run:
+        cp ./cli-console/build/libs/*-fat.jar
+        ./cli-console/build/libs/cli-fatjar.jar
+    - name: Cache Aya
+      uses: ./actions/run-me

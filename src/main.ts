@@ -1,18 +1,27 @@
 import * as core from '@actions/core'
-import { setup } from './aya-setup.js'
+import tc from '@actions/tool-cache'
+import exec from '@actions/exec'
+import path from 'path'
+
+const releaseDir = './cli-console/build/libs'
+const cliJarName = 'cli-fatjar.jar'
 
 /**
- * The main function for the action.
- *
- * @returns Resolves when the action is complete.
+ * Current directory is the root of aya-dev, the jar is produced
  */
 export async function run(): Promise<void> {
   try {
-    const token = core.getInput('token')
-    const version = core.getInput('version')
-    const aya = await setup(token, version)
+    const ayaJar = path.join(releaseDir, cliJarName)
+    const { stdout: stdout } = await exec.getExecOutput('java', [
+      '-jar',
+      ayaJar,
+      '--version'
+    ])
+    const version = stdout.substring(4).trim()
+    const ayaHome = await tc.cacheFile(ayaJar, cliJarName, 'aya', version)
+    core.info('Aya is installed into: ' + ayaHome)
 
-    await aya.run('--version')
+    core.setOutput('version', version)
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
