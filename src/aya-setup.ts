@@ -6,6 +6,7 @@ import path from 'path'
 
 const ayaProver = 'aya-prover'
 const ayaDev = 'aya-dev'
+const toolName = 'aya'
 const cliFileName = 'cli-fatjar.jar'
 
 class Aya {
@@ -51,11 +52,11 @@ export async function setup(token: string, version: string): Promise<Aya> {
 
   core.debug('Downloading ' + assetsUrl)
   const downloaded = await tc.downloadTool(assetsUrl)
-  const ayaHome = await tc.cacheFile(downloaded, cliFileName, 'aya', version)
+  const ayaHome = await tc.cacheFile(downloaded, cliFileName, toolName, version)
   core.debug('Aya is setup at ' + ayaHome)
 
-  core.debug('Setting up PATH')
-  core.addPath(ayaHome)
+  const refind = tc.find(toolName, cliFileName)
+  core.debug('Aya is found at: ' + refind)
 
   core.debug('Done setup Aya.')
   return new Aya(path.join(ayaHome, cliFileName))

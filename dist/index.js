@@ -33808,6 +33808,7 @@ var toolCacheExports = requireToolCache();
 
 const ayaProver = 'aya-prover';
 const ayaDev = 'aya-dev';
+const toolName = 'aya';
 const cliFileName = 'cli-fatjar.jar';
 class Aya {
     cliJar;
@@ -33841,10 +33842,10 @@ async function setup(token, version) {
     const assetsUrl = cliJarAsset.browser_download_url;
     coreExports.debug('Downloading ' + assetsUrl);
     const downloaded = await toolCacheExports.downloadTool(assetsUrl);
-    const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, 'aya', version);
+    const ayaHome = await toolCacheExports.cacheFile(downloaded, cliFileName, toolName, version);
     coreExports.debug('Aya is setup at ' + ayaHome);
-    coreExports.debug('Setting up PATH');
-    coreExports.addPath(ayaHome);
+    const refind = toolCacheExports.find(toolName, cliFileName);
+    coreExports.debug('Aya is found at: ' + refind);
     coreExports.debug('Done setup Aya.');
     return new Aya(require$$1$5.join(ayaHome, cliFileName));
 }
