@@ -39,5 +39,12 @@ runs:
       run:
         cp ./cli-console/build/libs/*-fat.jar
         ./cli-console/build/libs/cli-fatjar.jar
+    - name: Save PWD
+      id: save-pwd
+      run: echo "aya_root=$PWD" >> $GITHUB_OUTPUT
+    - name: checkout back
+      uses: 'actions/checkout@v4'
     - name: Cache Aya
       uses: ./actions/run-me
+      with:
+        aya-root: ${{ steps.save-pwd.outputs.aya_root }}

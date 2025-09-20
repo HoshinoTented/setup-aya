@@ -29831,7 +29831,8 @@ const cliJarName = 'cli-fatjar.jar';
  */
 async function run() {
     try {
-        const ayaJar = require$$1$5.join(releaseDir, cliJarName);
+        const ayaRoot = coreExports.getInput('aya-root');
+        const ayaJar = require$$1$5.join(ayaRoot, releaseDir, cliJarName);
         const { stdout: stdout } = await exec.getExecOutput('java', [
             '-jar',
             ayaJar,

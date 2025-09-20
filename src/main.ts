@@ -11,7 +11,9 @@ const cliJarName = 'cli-fatjar.jar'
  */
 export async function run(): Promise<void> {
   try {
-    const ayaJar = path.join(releaseDir, cliJarName)
+    const ayaRoot = core.getInput('aya-root')
+
+    const ayaJar = path.join(ayaRoot, releaseDir, cliJarName)
     const { stdout: stdout } = await exec.getExecOutput('java', [
       '-jar',
       ayaJar,
