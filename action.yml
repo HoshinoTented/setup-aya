@@ -17,7 +17,6 @@ inputs:
     required: true
 
 # Define your outputs here.
-outputs:
 
 runs:
   using: node24
