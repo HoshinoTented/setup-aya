@@ -28,7 +28,7 @@ runs:
   steps:
     - name: extract versions
       id: extract-versions
-      uses: "aya-prover/aya-dev/.github/workflows/extract-version.yaml@${{ inputs.refs }}"
+      uses: "aya-prover/aya-dev/.github/workflows/extract-version.yaml@ ${{ inputs.refs }}"
     - name: checkout
       uses: 'actions/checkout@v4'
       with:
