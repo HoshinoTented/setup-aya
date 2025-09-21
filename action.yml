@@ -28,6 +28,8 @@ runs:
   steps:
     - name: checkout
       uses: 'actions/checkout@v4'
+    - name: Clone aya-dev
+      uses: 'actions/checkout@v4'
       with:
         repository: 'aya-prover/aya-dev'
         ref: ${{ inputs.refs }}
