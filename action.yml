@@ -67,7 +67,7 @@ runs:
       with:
         path: actions # checkout cleans directory, which includes cil-fatjar.jar
     - name: Cache Aya
-      uses: ./actions/run-me
+      uses: ./actions/actions/run-me
       with:
-        aya-root: ../
+        aya-root: ${{ steps.prepare.outputs.aya_root }}
         version: ${{ steps.check.outputs.projectVersion }}
