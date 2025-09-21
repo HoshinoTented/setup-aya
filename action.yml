@@ -38,6 +38,7 @@ runs:
       id: check
       shell: bash
       run: |
+        echo "$PWD"
         # We use `head -n1` to select the first line matching the regex, 
         # so be sure to put these versions in the very beginning of the file.
         projectVersion=$(cat ./gradle/libs.versions.toml | grep -Po 'project(\s*)=(\s*)"\K.*?(?=")' | head -n1)
