@@ -26,8 +26,6 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: checkout
-      uses: 'actions/checkout@v4'
     - name: Clone aya-dev
       uses: 'actions/checkout@v4'
       with:
@@ -65,8 +63,6 @@ runs:
       id: prepare
       shell: bash
       run: |
-        echo $PWD
-        ls -al
         cp ./aya-dev/cli-console/build/libs/*-fat.jar ./cli-fatjar.jar
         echo "version=${{ steps.check.outputs.projectVersion }}" >> $GITHUB_OUTPUT
     - name: Cache Aya
