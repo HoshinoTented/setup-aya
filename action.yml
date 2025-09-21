@@ -59,6 +59,7 @@ runs:
       shell: bash
       run: |
         cp ./cli-console/build/libs/*-fat.jar ./cli-console/build/libs/cli-fatjar.jar
+        echo "Current working directory: $PWD"
         echo "aya_root=$PWD" >> $GITHUB_OUTPUT
         echo "version=${{ steps.check.outputs.projectVersion }}" >> $GITHUB_OUTPUT
     - name: checkout back
