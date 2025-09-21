@@ -13,16 +13,13 @@ inputs:
     description: branch, tag, or commit of aya-dev
     required: true
     default: nightly-build
-    type: string
   token:
     description: 'github token'
     required: true
-    type: string
 
 outputs:
   version:
     description: the installed aya version
-    type: string
 
 # Define your outputs here.
 

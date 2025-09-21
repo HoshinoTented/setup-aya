@@ -3,11 +3,9 @@ name: run-me
 inputs:
   aya-root:
     description: the root directory of aya-dev
-    type: string
     required: true
   version:
     description: the installed aya version
-    type: string
     required: true
 
 runs:
