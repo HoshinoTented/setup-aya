@@ -13,39 +13,52 @@ inputs:
     description: branch, tag, or commit of aya-dev
     required: true
     default: nightly-build
+    type: string
   token:
     description: 'github token'
     required: true
+    type: string
+
+outputs:
+  version:
+    description: the installed aya version
+    type: string
 
 # Define your outputs here.
 
 runs:
   using: composite
   steps:
+    - name: extract versions
+      id: extract-versions
+      uses:
+        'aya-prover/aya-dev/.github/workflows/extract-version.yaml@${{
+        inputs.refs }}'
     - name: checkout
       uses: 'actions/checkout@v4'
       with:
         repository: 'aya-prover/aya-dev'
         ref: ${{ inputs.refs }}
+    - name:
     - name: Setup Java ${{ inputs.java-version }}
       uses: actions/setup-java@v4
       with:
         distribution: 'liberica'
-        java-version: ${{ inputs.java-version }}
+        java-version: ${{ steps.extract-versions.outputs.javaVersion }}
     - uses: gradle/gradle-build-action@v3
       with:
         arguments: fatJar --no-daemon --stacktrace --warning-mode all
-    - name: Copy fat jar
+    - name: Prepare for install
+      id: prepare
       shell: bash
       run: |
         cp ./cli-console/build/libs/*-fat.jar ./cli-console/build/libs/cli-fatjar.jar
-    - name: Save PWD
-      id: save-pwd
-      shell: bash
-      run: echo "aya_root=$PWD" >> $GITHUB_OUTPUT
+        echo "aya_root=$PWD" >> $GITHUB_OUTPUT
+        echo "version=${{ steps.extract-versions.outputs.projectVersion }}" >> $GITHUB_OUTPUT
     - name: checkout back
       uses: 'actions/checkout@v4'
     - name: Cache Aya
       uses: ./actions/run-me
       with:
-        aya-root: ${{ steps.save-pwd.outputs.aya_root }}
+        aya-root: ${{ steps.prepare.outputs.aya_root }}
+        version: ${{ steps.extract-versions.outputs.projectVersion }}

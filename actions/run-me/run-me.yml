@@ -3,11 +3,12 @@ name: run-me
 inputs:
   aya-root:
     description: the root directory of aya-dev
+    type: string
     required: true
-
-outputs:
   version:
     description: the installed aya version
+    type: string
+    required: true
 
 runs:
   using: node24
