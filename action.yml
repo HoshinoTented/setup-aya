@@ -31,6 +31,9 @@ runs:
       with:
         repository: 'aya-prover/aya-dev'
         ref: ${{ inputs.refs }}
+        path: "aya-dev"
+    - shell: bash
+      run: cd aya-dev
     - name: Extract versions from Gradle's libs.versions.toml
       id: check
       shell: bash
@@ -60,16 +63,11 @@ runs:
       run: |
         cp ./cli-console/build/libs/*-fat.jar ./cli-console/build/libs/cli-fatjar.jar
         echo "Current working directory: $PWD"
-        echo "aya_root=$PWD" >> $GITHUB_OUTPUT
         echo "version=${{ steps.check.outputs.projectVersion }}" >> $GITHUB_OUTPUT
-    - name: checkout back
-      uses: 'actions/checkout@v4'
-      with:
-        path: actions # checkout cleans directory, which includes cil-fatjar.jar
+    - shell: bash
+      run: cd ..
     - name: Cache Aya
       uses: ./actions/actions/run-me
       with:
-        aya-root: ${{ steps.prepare.outputs.aya_root }}
+        aya-root: aya-dev
         version: ${{ steps.check.outputs.projectVersion }}
-    - name: checkout back again, don't ask me why
-      uses: 'actions/checkout@v4'
