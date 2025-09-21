@@ -71,3 +71,5 @@ runs:
       with:
         aya-root: ${{ steps.prepare.outputs.aya_root }}
         version: ${{ steps.check.outputs.projectVersion }}
+    - name: checkout back again, don't ask me why
+      uses: 'actions/checkout@v4'
