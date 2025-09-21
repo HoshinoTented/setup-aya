@@ -25,6 +25,9 @@ export async function run(): Promise<void> {
       ayaVersion
     )
     core.info('Aya is installed into: ' + ayaHome)
+
+    const refind = tc.find('aya', ayaVersion)
+    core.info('Refind: ' + refind)
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)

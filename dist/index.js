@@ -29836,6 +29836,8 @@ async function run() {
         // const version = stdout.substring(4).trim()
         const ayaHome = await tc.cacheFile(cliJarName, cliJarName, 'aya', ayaVersion);
         coreExports.info('Aya is installed into: ' + ayaHome);
+        const refind = tc.find('aya', ayaVersion);
+        coreExports.info('Refind: ' + refind);
     }
     catch (error) {
         // Fail the workflow run if an error occurs
