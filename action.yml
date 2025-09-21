@@ -24,7 +24,7 @@ outputs:
 # Define your outputs here.
 
 runs:
-  using: composite
+  using: "composite"
   steps:
     - name: extract versions
       id: extract-versions
