@@ -53,11 +53,12 @@ runs:
       with:
         distribution: 'liberica'
         java-version: ${{ steps.check.outputs.javaVersion }}
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
     - name: Build
-      uses: gradle/gradle-build-action@v3
+      shell: bash
       working-directory: 'aya-dev'
-      with:
-        arguments: fatJar --no-daemon --stacktrace --warning-mode all
+      run: ./gradlew fatJar --no-daemon --stacktrace --warning-mode all
     - name: Prepare for install
       id: prepare
       shell: bash
