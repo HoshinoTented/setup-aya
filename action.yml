@@ -35,6 +35,7 @@ runs:
     - name: Extract versions from Gradle's libs.versions.toml
       id: check
       shell: bash
+      working-directory: 'aya-dev'
       run: |
         # We use `head -n1` to select the first line matching the regex, 
         # so be sure to put these versions in the very beginning of the file.
@@ -47,7 +48,6 @@ runs:
         echo "projectVersion=${projectVersion}" >> $GITHUB_OUTPUT
         echo "isSnapshot=${isSnapshot}" >> $GITHUB_OUTPUT
         echo "javaVersion=${javaVersion}" >> $GITHUB_OUTPUT
-      working-directory: 'aya-dev'
     - name: Setup Java ${{ inputs.java-version }}
       uses: actions/setup-java@v4
       with:
