@@ -63,6 +63,8 @@ runs:
       id: prepare
       shell: bash
       run: |
+        echo $PWD
+        ls -al
         cp ./aya-dev/cli-console/build/libs/*-fat.jar ./cli-fatjar.jar
         echo "version=${{ steps.check.outputs.projectVersion }}" >> $GITHUB_OUTPUT
     - name: Cache Aya
