@@ -64,8 +64,10 @@ runs:
         echo "version=${{ steps.check.outputs.projectVersion }}" >> $GITHUB_OUTPUT
     - name: checkout back
       uses: 'actions/checkout@v4'
+      with:
+        path: actions # checkout cleans directory, which includes cil-fatjar.jar
     - name: Cache Aya
       uses: ./actions/run-me
       with:
-        aya-root: ${{ steps.prepare.outputs.aya_root }}
+        aya-root: ../
         version: ${{ steps.check.outputs.projectVersion }}
