@@ -29821,23 +29821,20 @@ function requireToolCache () {
 var toolCacheExports = requireToolCache();
 var tc = /*@__PURE__*/getDefaultExportFromCjs(toolCacheExports);
 
-const releaseDir = './cli-console/build/libs';
 const cliJarName = 'cli-fatjar.jar';
 /**
  * Current directory is the root of aya-dev, the jar is produced
  */
 async function run() {
     try {
-        const ayaRoot = coreExports.getInput('aya-root');
         const ayaVersion = coreExports.getInput('version');
-        const ayaJar = require$$1$5.join(ayaRoot, releaseDir, cliJarName);
         // const { stdout: stdout } = await exec.getExecOutput('java', [
         //   '-jar',
         //   ayaJar,
         //   '--version'
         // ])
         // const version = stdout.substring(4).trim()
-        const ayaHome = await tc.cacheFile(ayaJar, cliJarName, 'aya', ayaVersion);
+        const ayaHome = await tc.cacheFile(cliJarName, cliJarName, 'aya', ayaVersion);
         coreExports.info('Aya is installed into: ' + ayaHome);
     }
     catch (error) {

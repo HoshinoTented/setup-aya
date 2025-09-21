@@ -11,17 +11,19 @@ const cliJarName = 'cli-fatjar.jar'
  */
 export async function run(): Promise<void> {
   try {
-    const ayaRoot = core.getInput('aya-root')
     const ayaVersion = core.getInput('version')
-
-    const ayaJar = path.join(ayaRoot, releaseDir, cliJarName)
     // const { stdout: stdout } = await exec.getExecOutput('java', [
     //   '-jar',
     //   ayaJar,
     //   '--version'
     // ])
     // const version = stdout.substring(4).trim()
-    const ayaHome = await tc.cacheFile(ayaJar, cliJarName, 'aya', ayaVersion)
+    const ayaHome = await tc.cacheFile(
+      cliJarName,
+      cliJarName,
+      'aya',
+      ayaVersion
+    )
     core.info('Aya is installed into: ' + ayaHome)
   } catch (error) {
     // Fail the workflow run if an error occurs

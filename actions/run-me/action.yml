@@ -1,9 +1,6 @@
 name: run-me
 
 inputs:
-  aya-root:
-    description: the root directory of aya-dev
-    required: true
   version:
     description: the installed aya version
     required: true
