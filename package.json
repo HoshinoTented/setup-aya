@@ -1,8 +1,8 @@
 {
-  "name": "aya-setup",
-  "description": "GitHub Actions TypeScript template",
-  "version": "0.0.0",
-  "author": "",
+  "name": "setup-aya",
+  "description": "Compile and setup aya toolchain",
+  "version": "1.0.0",
+  "author": "aya-prover, HoshinoTented",
   "type": "module",
   "private": true,
   "homepage": "https://github.com/actions/typescript-action",
