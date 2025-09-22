@@ -1,7 +1,6 @@
 import * as core from '@actions/core'
 import tc from '@actions/tool-cache'
 
-const releaseDir = './cli-console/build/libs'
 const cliJarName = 'cli-fatjar.jar'
 
 /**
