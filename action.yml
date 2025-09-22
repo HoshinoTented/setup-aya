@@ -66,6 +66,6 @@ runs:
         cp ./aya-dev/cli-console/build/libs/*-fat.jar ./cli-fatjar.jar
         echo "version=${{ steps.check.outputs.projectVersion }}" >> $GITHUB_OUTPUT
     - name: Cache Aya
-      uses: ./actions/run-me
+      uses: 'HoshinoTented/actions/actions/run-me@main'
       with:
         version: ${{ steps.check.outputs.projectVersion }}

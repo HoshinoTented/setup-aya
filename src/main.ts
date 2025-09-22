@@ -1,7 +1,5 @@
 import * as core from '@actions/core'
 import tc from '@actions/tool-cache'
-import exec from '@actions/exec'
-import path from 'path'
 
 const releaseDir = './cli-console/build/libs'
 const cliJarName = 'cli-fatjar.jar'
