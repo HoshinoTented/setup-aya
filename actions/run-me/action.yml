@@ -1,0 +1,10 @@
+name: run-me
+
+inputs:
+  version:
+    description: the installed aya version
+    required: true
+
+runs:
+  using: node24
+  main: ../../dist/index.js
