@@ -4,17 +4,11 @@ import tc from '@actions/tool-cache'
 const cliJarName = 'cli-fatjar.jar'
 
 /**
- * Current directory is the root of aya-dev, the jar is produced
+ * 'cli-fatjar.jar' should exist in the current directory.
  */
 export async function run(): Promise<void> {
   try {
     const ayaVersion = core.getInput('version')
-    // const { stdout: stdout } = await exec.getExecOutput('java', [
-    //   '-jar',
-    //   ayaJar,
-    //   '--version'
-    // ])
-    // const version = stdout.substring(4).trim()
     const ayaHome = await tc.cacheFile(
       cliJarName,
       cliJarName,

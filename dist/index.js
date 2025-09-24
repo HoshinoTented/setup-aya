@@ -29823,17 +29823,11 @@ var tc = /*@__PURE__*/getDefaultExportFromCjs(toolCacheExports);
 
 const cliJarName = 'cli-fatjar.jar';
 /**
- * Current directory is the root of aya-dev, the jar is produced
+ * 'cli-fatjar.jar' should exist in the current directory.
  */
 async function run() {
     try {
         const ayaVersion = coreExports.getInput('version');
-        // const { stdout: stdout } = await exec.getExecOutput('java', [
-        //   '-jar',
-        //   ayaJar,
-        //   '--version'
-        // ])
-        // const version = stdout.substring(4).trim()
         const ayaHome = await tc.cacheFile(cliJarName, cliJarName, 'aya', ayaVersion);
         coreExports.info('Aya is installed into: ' + ayaHome);
     }

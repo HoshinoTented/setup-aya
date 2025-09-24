@@ -58,7 +58,6 @@ jobs:
         uses: ./
         with:
           refs: 'nightly-build'
-          token: '${{ secrets.GITHUB_TOKEN }}'
 
       - name: Print Output
         id: output
