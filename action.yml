@@ -1,6 +1,6 @@
 name: setup-aya
-description: Provide a description here
-author: Your name or organization here
+description: Setup aya toolchain
+author: aya-prover, HoshinoTented
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
