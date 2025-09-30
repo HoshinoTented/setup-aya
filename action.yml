@@ -63,6 +63,6 @@ runs:
         echo "version=${{ steps.check.outputs.projectVersion }}" >> $GITHUB_OUTPUT
     - name: Cache Aya
       # Change refs when you publish a release
-      uses: 'HoshinoTented/setup-aya/actions/run-me@main'
+      uses: 'HoshinoTented/setup-aya/actions/run-me@v1'
       with:
         version: ${{ steps.check.outputs.projectVersion }}
