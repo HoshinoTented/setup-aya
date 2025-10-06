@@ -51,7 +51,7 @@ runs:
         distribution: 'liberica'
         java-version: ${{ steps.check.outputs.javaVersion }}
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
+      uses: gradle/actions/setup-gradle@v5
     - name: Build
       shell: bash
       working-directory: 'aya-dev'
