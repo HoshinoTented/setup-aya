@@ -20,6 +20,7 @@ outputs:
   javaVersion:
     description: the java version aya-dev uses
   isSnapshot:
+    description: whether the aya version is snapshot
   
 
 # Define your outputs here.
