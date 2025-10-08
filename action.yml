@@ -15,8 +15,12 @@ inputs:
     default: nightly-build
 
 outputs:
-  version:
+  projectVersion:
     description: the installed aya version
+  javaVersion:
+    description: the java version aya-dev uses
+  isSnapshot:
+  
 
 # Define your outputs here.
 
@@ -60,9 +64,10 @@ runs:
       shell: bash
       run: |
         cp ./aya-dev/cli-console/build/libs/*-fat.jar ./cli-fatjar.jar
-        echo "version=${{ steps.check.outputs.projectVersion }}" >> $GITHUB_OUTPUT
     - name: Cache Aya
-      # Change refs when you publish a release
-      uses: 'HoshinoTented/setup-aya/actions/run-me@v1'
-      with:
-        version: ${{ steps.check.outputs.projectVersion }}
+      shell: bash
+      run: |
+        TC_ROOT="$RUNNER_TOOL_CACHE/aya/${{ steps.check.outputs.projectVersion }}/$RUNNER_ARCH"
+        mkdir -p $TC_ROOT
+        cp ./cli-fatjar.jar $TC_ROOT/
+        echo "Aya is installed at $TC_ROOT"
