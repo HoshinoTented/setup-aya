@@ -71,4 +71,5 @@ runs:
         TC_ROOT="$RUNNER_TOOL_CACHE/aya/${{ steps.check.outputs.projectVersion }}/$RUNNER_ARCH"
         mkdir -p $TC_ROOT
         cp ./cli-fatjar.jar $TC_ROOT/
+        touch "$TC_ROOT.complete"
         echo "Aya is installed at $TC_ROOT"
