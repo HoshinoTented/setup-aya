@@ -68,7 +68,8 @@ runs:
     - name: Cache Aya
       shell: bash
       run: |
-        TC_ROOT="$RUNNER_TOOL_CACHE/aya/${{ steps.check.outputs.projectVersion }}/$RUNNER_ARCH"
+        ARCH=$(echo $RUNNER_ARCH | tr '[:upper:]' '[:lower:]')
+        TC_ROOT="$RUNNER_TOOL_CACHE/aya/${{ steps.check.outputs.projectVersion }}/$ARCH"
         mkdir -p $TC_ROOT
         cp ./cli-fatjar.jar $TC_ROOT/
         touch "$TC_ROOT.complete"
